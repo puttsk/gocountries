@@ -1,5 +1,5 @@
-[![Github](https://img.shields.io/badge/sources-github-green.svg)](https://github.com/puttsk/codegen/)
- [![GitHub forks](https://img.shields.io/github/stars/puttsk/codegen.svg?style=social&label=Star)](https://github.com/puttsk/codegen)
+[![Github](https://img.shields.io/badge/sources-github-green.svg)](https://github.com/puttsk/gocountries/)
+ [![GitHub forks](https://img.shields.io/github/stars/puttsk/gocountries.svg?style=social&label=Star)](https://github.com/puttsk/gocountries)
 
 # gocountries
 
