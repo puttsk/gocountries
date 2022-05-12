@@ -1,3 +1,5 @@
 # Ignore data directory in generator directory except README.md
+*.out
+*.test
 data
 codegen

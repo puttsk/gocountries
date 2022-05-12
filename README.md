@@ -43,6 +43,22 @@ To build your own module, you need [codegen](https://github.com/puttsk/codegen) 
     ok      github.com/puttsk/go-countries  (cached)
     ```
 
+## Performance
+
+Current benchmakr results
+
+``` bash
+go test -bench=. -benchmem 
+goos: darwin
+goarch: amd64
+pkg: github.com/puttsk/go-countries
+cpu: Intel(R) Core(TM) i5-1038NG7 CPU @ 2.00GHz
+BenchmarkGetCountryFromID-8                     95227801                12.15 ns/op            0 B/op          0 allocs/op
+BenchmarkGetCountryFromAlpha2-8                 84938349                13.89 ns/op            0 B/op          0 allocs/op
+BenchmarkGetCountryFromAlpha3-8                 83130136                13.96 ns/op            0 B/op          0 allocs/op
+BenchmarkGetCountryFromAlpha3Switch-8           41544830                27.02 ns/op            0 B/op          0 allocs/op
+```
+
 ## Contributing
 
 TBD

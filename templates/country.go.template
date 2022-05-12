@@ -3,28 +3,55 @@ package gocountries
 type Country struct {
     Alpha3 string
     Alpha2 string
-    ID int32
+    ID int
     TH string
     EN string
 }
 
-func GetCountryFromAlpha3(alpha3 string) (Country) {
-    switch alpha3 {
-        << for-block begin>>
-        case "{{alpha3}}": 
-            return Country{Alpha2: "{{alpha2}}", Alpha3: "{{alpha3}}", ID: {{id}}, EN:"{{en}}", TH:"{{th}}"}
-        << for-block end >>
-        default:
-            return Country{}
-    }
+<< for-block begin>>
+var country{{alpha3}} = Country{Alpha2: "{{alpha2}}", Alpha3: "{{alpha3}}", ID: {{id}}, EN:"{{en}}", TH:"{{th}}"} 
+<< for-block end>>
+
+var idCountryMap map[int]Country = map[int]Country{
+    << for-block begin>>
+    {{id}}: country{{alpha3}},
+    << for-block end >>
+}
+
+func GetCountryFromID(id int) (Country, bool) {
+    c, ok := idCountryMap[id]
+    return c, ok
+}
+
+var alpha2CountryMap map[string]Country = map[string]Country{
+    << for-block begin>>
+    "{{alpha2}}": country{{alpha3}},
+    << for-block end >>
+}
+
+func GetCountryFromAlpha2(alpha2 string) (Country, bool) {
+    c, ok := alpha2CountryMap[alpha2]
+    return c, ok
 }
 
 var alpha3CountryMap map[string]Country = map[string]Country{
     << for-block begin>>
-    "{{alpha3}}": {Alpha2: "{{alpha2}}", Alpha3: "{{alpha3}}", ID: {{id}}, EN:"{{en}}", TH:"{{th}}"},
+    "{{alpha3}}": country{{alpha3}},
     << for-block end >>
 }
 
-func GetCountryFromAlpha3Map(alpha3 string) (Country, error) {
-    return alpha3CountryMap[alpha3], nil
+func GetCountryFromAlpha3(alpha3 string) (Country, bool) {
+    c, ok := alpha3CountryMap[alpha3]
+    return c, ok
+}
+
+func GetCountryFromAlpha3Switch(alpha3 string) (Country, bool) {
+    switch alpha3 {
+        << for-block begin>>
+        case "{{alpha3}}": 
+            return Country{Alpha2: "{{alpha2}}", Alpha3: "{{alpha3}}", ID: {{id}}, EN:"{{en}}", TH:"{{th}}"}, true
+        << for-block end >>
+        default:
+            return Country{}, false
+    }
 }

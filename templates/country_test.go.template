@@ -6,11 +6,100 @@ import (
 	gocountries "github.com/puttsk/go-countries"
 )
 
-func TestGetCountryFromAlpha3(t *testing.T) {
-    var c gocountries.Country
+var input = []gocountries.Country{
+	<< for-block begin >>
+    {Alpha2: "{{alpha2}}", Alpha3: "{{alpha3}}", ID: {{id}}, EN:"{{en}}", TH:"{{th}}"},
+	<< for-block end >>
+}
+
+
+func TestGetCountryFromID(t *testing.T) {
+    var c,c1 gocountries.Country
+	var ok bool
 
     << for-block begin >>
-	c = gocountries.GetCountryFromAlpha3("{{alpha3}}")
+	c, ok = gocountries.GetCountryFromID({{id}})
+	if !ok {
+		t.Errorf("invalid value: expect: %t actual: %t", true, ok)
+	}
+    if c.ID != {{id}} {
+		t.Errorf("invalid value: expect: %d actual: %d", {{id}}, c.ID)
+	}
+    if c.EN != "{{en}}" {
+		t.Errorf("invalid value: expect: %s actual: %s", "{{en}}", c.EN)
+	}
+	if c.TH != "{{th}}" {
+		t.Errorf("invalid value: expect: %s actual: %s", "{{th}}", c.TH)
+	}
+	c1, ok = gocountries.GetCountryFromID({{id}})
+	if &c == &c1 {
+		t.Errorf("invalid: address: &c: %p &c1: %p", &c, &c1)
+	}
+    << for-block end >>
+
+	c, ok = gocountries.GetCountryFromID(0)
+	if ok {
+		t.Errorf("invalid value: expect: %t actual: %t", false, ok)
+	}
+    if c.ID != 0 {
+		t.Errorf("invalid value: expect: %d actual: %d", 0, c.ID)
+	}
+    if c.EN != "" {
+		t.Errorf("invalid value: expect: %s actual: %s", "", c.EN)
+	}
+	if c.TH != "" {
+		t.Errorf("invalid value: expect: %s actual: %s", "", c.TH)
+	}
+}
+
+func TestGetCountryFromAlpha2(t *testing.T) {
+    var c,c1 gocountries.Country
+	var ok bool
+
+    << for-block begin >>
+	c, ok = gocountries.GetCountryFromAlpha2("{{alpha2}}")
+	if !ok {
+		t.Errorf("invalid value: expect: %t actual: %t", true, ok)
+	}
+    if c.ID != {{id}} {
+		t.Errorf("invalid value: expect: %d actual: %d", {{id}}, c.ID)
+	}
+    if c.EN != "{{en}}" {
+		t.Errorf("invalid value: expect: %s actual: %s", "{{en}}", c.EN)
+	}
+	if c.TH != "{{th}}" {
+		t.Errorf("invalid value: expect: %s actual: %s", "{{th}}", c.TH)
+	}
+	c1, ok = gocountries.GetCountryFromAlpha2("{{alpha2}}")
+	if &c == &c1 {
+		t.Errorf("invalid: address: &c: %p &c1: %p", &c, &c1)
+	}
+    << for-block end >>
+
+	c, ok = gocountries.GetCountryFromAlpha2("aaa")
+	if ok {
+		t.Errorf("invalid value: expect: %t actual: %t", false, ok)
+	}
+    if c.ID != 0 {
+		t.Errorf("invalid value: expect: %d actual: %d", 0, c.ID)
+	}
+    if c.EN != "" {
+		t.Errorf("invalid value: expect: %s actual: %s", "", c.EN)
+	}
+	if c.TH != "" {
+		t.Errorf("invalid value: expect: %s actual: %s", "", c.TH)
+	}
+}
+
+func TestGetCountryFromAlpha3(t *testing.T) {
+    var c gocountries.Country
+	var ok bool
+
+    << for-block begin >>
+	c, ok = gocountries.GetCountryFromAlpha3("{{alpha3}}")
+	if !ok {
+		t.Errorf("invalid value: expect: %t actual: %t", true, ok)
+	}
     if c.ID != {{id}} {
 		t.Errorf("invalid value: expect: %d actual: %d", {{id}}, c.ID)
 	}
@@ -21,16 +110,77 @@ func TestGetCountryFromAlpha3(t *testing.T) {
 		t.Errorf("invalid value: expect: %s actual: %s", "{{th}}", c.TH)
 	}
     << for-block end >>
+
+	c, ok = gocountries.GetCountryFromAlpha3("aaa")
+	if ok {
+		t.Errorf("invalid value: expect: %t actual: %t", false, ok)
+	}
+    if c.ID != 0 {
+		t.Errorf("invalid value: expect: %d actual: %d", 0, c.ID)
+	}
+    if c.EN != "" {
+		t.Errorf("invalid value: expect: %s actual: %s", "", c.EN)
+	}
+	if c.TH != "" {
+		t.Errorf("invalid value: expect: %s actual: %s", "", c.TH)
+	}
+}
+
+func TestGetCountryFromAlpha3Switch(t *testing.T) {
+    var c gocountries.Country
+	var ok bool
+
+    << for-block begin >>
+	c, ok = gocountries.GetCountryFromAlpha3Switch("{{alpha3}}")
+	if !ok {
+		t.Errorf("invalid value: expect: %t actual: %t", true, ok)
+	}
+    if c.ID != {{id}} {
+		t.Errorf("invalid value: expect: %d actual: %d", {{id}}, c.ID)
+	}
+    if c.EN != "{{en}}" {
+		t.Errorf("invalid value: expect: %s actual: %s", "{{en}}", c.EN)
+	}
+	if c.TH != "{{th}}" {
+		t.Errorf("invalid value: expect: %s actual: %s", "{{th}}", c.TH)
+	}
+    << for-block end >>
+
+	c, ok = gocountries.GetCountryFromAlpha3Switch("aaa")
+	if ok {
+		t.Errorf("invalid value: expect: %t actual: %t", false, ok)
+	}
+    if c.ID != 0 {
+		t.Errorf("invalid value: expect: %d actual: %d", 0, c.ID)
+	}
+    if c.EN != "" {
+		t.Errorf("invalid value: expect: %s actual: %s", "", c.EN)
+	}
+	if c.TH != "" {
+		t.Errorf("invalid value: expect: %s actual: %s", "", c.TH)
+	}
+}
+
+func BenchmarkGetCountryFromID(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		gocountries.GetCountryFromID(input[n%len(input)].ID)
+	}
+}
+
+func BenchmarkGetCountryFromAlpha2(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		gocountries.GetCountryFromAlpha2(input[n%len(input)].Alpha2)
+	}
 }
 
 func BenchmarkGetCountryFromAlpha3(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		gocountries.GetCountryFromAlpha3("tha")
+		gocountries.GetCountryFromAlpha3(input[n%len(input)].Alpha3)
 	}
 }
 
-func BenchmarkGetCountryFromAlpha3Map(b *testing.B) {
+func BenchmarkGetCountryFromAlpha3Switch(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		gocountries.GetCountryFromAlpha3Map("tha")
+		gocountries.GetCountryFromAlpha3Switch(input[n%len(input)].Alpha3)
 	}
 }
